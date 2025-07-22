@@ -1,0 +1,506 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MLBB Diamond Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans Myanmar', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      min-height: 100vh;
+      padding: 15px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin: 15px 0;
+      color: #FFD700;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      text-align: center;
+      padding: 15px 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    .card i {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      color: #FFA500;
+    }
+
+    .card .diamond-count {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .card .price {
+      font-size: 1rem;
+      color: #FFD700;
+      font-weight: 600;
+    }
+
+    .section-title {
+      text-align: center;
+      margin: 25px 0 15px;
+      font-size: 1.3rem;
+      color: #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #FF8C00, #FFA500);
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    #form-section, #order-history {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      display: none;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: #FFD700;
+    }
+
+    .form-header i {
+      font-size: 1.3rem;
+    }
+
+    .form-header h3 {
+      font-size: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 5px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255,255,255,0.9);
+    }
+
+    input:focus {
+      outline: 2px solid #FFA500;
+    }
+
+    input[type="file"] {
+      padding: 8px;
+      background: white;
+    }
+
+    #selected-product {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(255,215,0,0.1);
+      border-radius: 8px;
+      color: #FFD700;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .order-item {
+      background: rgba(0,0,0,0.4);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border-left: 4px solid #FFA500;
+    }
+
+    .order-item p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    .order-item strong {
+      color: #FFD700;
+    }
+
+    .order-item img {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .telegram-info {
+      background: rgba(0, 136, 204, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #0088cc;
+      text-align: center;
+    }
+
+    .telegram-info p {
+      margin: 5px 0;
+    }
+
+    .telegram-info a {
+      color: #0088cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .payment-info {
+      background: rgba(76, 175, 80, 0.2);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      border-left: 4px solid #4CAF50;
+    }
+
+    .payment-info p {
+      margin: 5px 0;
+      font-size: 0.95rem;
+    }
+
+    .payment-info strong {
+      color: #4CAF50;
+    }
+
+    @media (min-width: 400px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 600px) {
+      .container {
+        max-width: 600px;
+      }
+      
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+      
+      .card {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><i class="fas fa-gem"></i> MLBB Diamond Shop</h1>
+
+    <div class="payment-info">
+      <p><strong><i class="fas fa-money-bill-wave"></i> ငွေလွှဲရန် ဖုန်းနံပါတ်</strong></p>
+      <p><strong>Kpay:</strong> 09950743805</p>
+      <p><strong>Name:</strong> Ye Hlaing Win</p>
+      <p class="note">ကျေးဇူးပြု၍ ငွေလွှဲပြီးနောက် Screenshot ရိုက်ပြီး အောက်ပါအတိုင်း အော်ဒါတင်ပါ</p>
+    </div>
+
+    <div class="section-title"><i class="fas fa-gem"></i> Diamond Packages</div>
+    <div class="grid">
+      <div class="card" onclick="showForm('56 Diamond', '5,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">56 Diamond</div>
+        <div class="price">5,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('112 Diamond', '9,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">112 Diamond</div>
+        <div class="price">9,500 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('86 Diamond', '7,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">86 Diamond</div>
+        <div class="price">7,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('172 Diamond', '11,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">172 Diamond</div>
+        <div class="price">11,500 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('257 Diamond', '17,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">257 Diamond</div>
+        <div class="price">17,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('343 Diamond', '22,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">343 Diamond</div>
+        <div class="price">22,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('429 Diamond', '27,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">429 Diamond</div>
+        <div class="price">27,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('514 Diamond', '32,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">514 Diamond</div>
+        <div class="price">32,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('600 Diamond', '36,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">600 Diamond</div>
+        <div class="price">36,500 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('706 Diamond', '41,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">706 Diamond</div>
+        <div class="price">41,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('878 Diamond', '51,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">878 Diamond</div>
+        <div class="price">51,500 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('963 Diamond', '56,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">963 Diamond</div>
+        <div class="price">56,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('1049 Diamond', '62,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">1049 Diamond</div>
+        <div class="price">62,500 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('1135 Diamond', '65,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">1135 Diamond</div>
+        <div class="price">65,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('1412 Diamond', '81,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">1412 Diamond</div>
+        <div class="price">81,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('2195 Diamond', '130,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">2195 Diamond</div>
+        <div class="price">130,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('3688 Diamond', '207,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">3688 Diamond</div>
+        <div class="price">207,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('5532 Diamond', '314,000 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">5532 Diamond</div>
+        <div class="price">314,000 Ks</div>
+      </div>
+      <div class="card" onclick="showForm('9288 Diamond', '512,500 Ks')">
+        <i class="fas fa-gem"></i>
+        <div class="diamond-count">9288 Diamond</div>
+        <div class="price">512,500 Ks</div>
+      </div>
+    </div>
+
+    <div class="section-title"><i class="fas fa-ticket-alt"></i> Weekly Pass</div>
+    <div class="grid">
+      <div class="card" onclick="showForm('Weekly Pass', '6,500 Ks')">
+        <i class="fas fa-ticket-alt"></i>
+        <div class="diamond-count">Weekly Pass</div>
+        <div class="price">6,500 Ks</div>
+      </div>
+    </div>
+
+    <div id="form-section">
+      <div class="form-header">
+        <i class="fas fa-file-alt"></i>
+        <h3>Order Information</h3>
+      </div>
+
+      <div id="selected-product"></div>
+
+      <div class="payment-info">
+        <p><strong><i class="fas fa-money-bill-wave"></i> ငွေလွှဲရန် ဖုန်းနံပါတ်</strong></p>
+        <p><strong>Kpay:</strong> 09950743805</p>
+        <p><strong>Name:</strong> Ye Hlaing Win</p>
+      </div>
+
+      <label><i class="fas fa-id-card"></i> Game ID</label>
+      <input id="gameId" type="text" placeholder="သင်၏ Game ID ထည့်ပါ" required>
+
+      <label><i class="fas fa-server"></i> Server ID</label>
+      <input id="serverId" type="text" placeholder="သင်၏ Server ID ထည့်ပါ" required>
+
+      <label><i class="fas fa-receipt"></i> Payment Screenshot</label>
+      <input type="file" id="screenshot" accept="image/*" required>
+
+      <button class="btn" onclick="submitOrder()">
+        <i class="fas fa-paper-plane"></i> Submit Order
+      </button>
+      <p class="note">အော်ဒါတင်ပြီးပါက အော်ဒါမှတ်တမ်းတွင် ပြသမည်။</p>
+    </div>
+
+    <div id="order-history">
+      <div class="form-header">
+        <i class="fas fa-history"></i>
+        <h3>Order History</h3>
+      </div>
+      <div id="orderList"></div>
+    </div>
+
+  <script>
+    let selectedProduct = "";
+
+    function showForm(product, price) {
+      selectedProduct = `${product} - ${price}`;
+      document.getElementById('selected-product').innerHTML = `
+        <i class="fas fa-shopping-cart"></i> Selected: <strong>${product}</strong><br>
+        <i class="fas fa-money-bill-wave"></i> Price: <strong>${price}</strong>
+      `;
+      document.getElementById('form-section').style.display = 'block';
+      document.getElementById('order-history').style.display = 'none';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    async function submitOrder() {
+      const gameId = document.getElementById('gameId').value;
+      const serverId = document.getElementById('serverId').value;
+      const screenshot = document.getElementById('screenshot').files[0];
+
+      if (!gameId || !serverId || !screenshot || !selectedProduct) {
+        alert("ကျေးဇူးပြု၍ အချက်အလက်အားလုံးကို ဖြည့်စွက်ပါ");
+        return;
+      }
+
+      // Create order in history
+      const orderList = document.getElementById('orderList');
+      const orderItem = document.createElement('div');
+      orderItem.className = 'order-item';
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('my-MM');
+      const timeStr = now.toLocaleTimeString('my-MM', { hour: '2-digit', minute: '2-digit' });
+      const imageURL = URL.createObjectURL(screenshot);
+
+      orderItem.innerHTML = `
+        <p><strong><i class="fas fa-calendar-day"></i> Date:</strong> ${dateStr}</p>
+        <p><strong><i class="fas fa-clock"></i> Time:</strong> ${timeStr}</p>
+        <p><strong><i class="fas fa-shopping-cart"></i> Product:</strong> ${selectedProduct.split(' - ')[0]}</p>
+        <p><strong><i class="fas fa-money-bill-wave"></i> Price:</strong> ${selectedProduct.split(' - ')[1]}</p>
+        <p><strong><i class="fas fa-id-card"></i> Game ID:</strong> ${gameId}</p>
+        <p><strong><i class="fas fa-server"></i> Server ID:</strong> ${serverId}</p>
+        <p><strong><i class="fas fa-camera"></i> Payment Proof:</strong></p>
+        <img src="${imageURL}" alt="Payment Screenshot">
+      `;
+
+      // Add new order to the top of the list
+      orderList.insertBefore(orderItem, orderList.firstChild);
+
+      // Send to Telegram
+      try {
+        const formData = new FormData();
+        formData.append('chat_id', '6236800589');
+        formData.append('photo', screenshot);
+        formData.append('caption', `📦 New MLBB Diamond Order\n\n🛒 Product: ${selectedProduct.split(' - ')[0]}\n💰 Price: ${selectedProduct.split(' - ')[1]}\n🎮 Game ID: ${gameId}\n🌐 Server ID: ${serverId}\n📅 Date: ${dateStr} ${timeStr}`);
+
+        const response = await fetch(`https://api.telegram.org/bot7555817355:AAFHv1ckS2OXpk0SivgIuu3dZouOE_x0DBM/sendPhoto`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+        if (!result.ok) {
+          console.error('Telegram API error:', result);
+        }
+      } catch (error) {
+        console.error('Error sending to Telegram:', error);
+      }
+
+      // Reset form
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('order-history').style.display = 'block';
+      document.getElementById('gameId').value = '';
+      document.getElementById('serverId').value = '';
+      document.getElementById('screenshot').value = '';
+      selectedProduct = '';
+
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
